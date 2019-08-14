@@ -67,7 +67,7 @@ class Router {
      * @param string                 $root
      * @param AbstractAccessProvider $accessProvider
      */
-    function __construct( string $root, AbstractAccessProvider $accessProvider = null ) {
+    public function __construct( string $root, AbstractAccessProvider $accessProvider = null ) {
 
         $this->root = $root;
         $this->response = new Response();

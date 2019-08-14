@@ -32,24 +32,28 @@ class Request {
     /**
      * retrieves POST input decoded from JSON
      *
+     * @param bool $assoc
+     *
      * @return mixed|null
      */
-    private function getBody() {
+    public function getBody( $assoc = false ) {
 
         if ( $this->requestMethod === "GET" )
             return null;
 
-        return json_decode( file_get_contents( 'php://input' ) );
+        return json_decode( file_get_contents( 'php://input' ), $assoc );
     }
 
     /**
      * retrieves GET input as stdClass and automatically parses numeric parameters
      *
+     * @param bool $assoc
+     *
      * @return mixed
      */
-    private function getQuery() {
+    public function getQuery( $assoc = false ) {
 
-        $output = json_decode( json_encode( $_GET ) );
+        $output = json_decode( json_encode( $_GET ), $assoc );
 
         foreach ( $output as $k => $v )
             if ( is_numeric( $v ) )

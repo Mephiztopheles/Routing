@@ -36,6 +36,16 @@ class Response {
         return $this->status( 404 );
     }
 
+    public function download( $content, $filename = "" ) {
+
+        header( "Content-Type: application/x-download" );
+        header( "Content-Disposition: attachment; $filename" );
+        header( "Cache-Control: private, max-age=0, must-revalidate" );
+        header( "Pragma: public" );
+
+        $this->content = $content;
+    }
+
     public function json( $content = null ) {
 
         $this->header( "Content-Type: application/json; charset=UTF-8" );

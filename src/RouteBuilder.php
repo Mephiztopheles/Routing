@@ -8,7 +8,7 @@ class RouteBuilder {
 
     private $route;
 
-    public function __construct( Route $route ) {
+    function __construct( Route $route ) {
         $this->route = $route;
     }
 
@@ -28,9 +28,18 @@ class RouteBuilder {
         return $this;
     }
 
-    public function allow( $object ) {
+    public function allow( ...$objects ) {
 
-        $this->route->allow( $object );
+        foreach ( $objects as $object )
+            $this->route->allow( $object );
+
+        return $this;
+    }
+
+    public function deny( ...$objects ) {
+
+        foreach ( $objects as $object )
+            $this->route->deny( $object );
 
         return $this;
     }

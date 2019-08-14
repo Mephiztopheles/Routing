@@ -4,8 +4,6 @@
 namespace Mephiztopheles\Routing;
 
 
-use Mephiztopheles\Routing\Route;
-
 abstract class AbstractAccessProvider {
 
     /**

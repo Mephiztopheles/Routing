@@ -9,7 +9,8 @@ use Mephiztopheles\Routing\exception\MethodNotAllowedException;
 class Route {
 
     private $methods = [];
-    private $secured = [];
+    private $allowed = [];
+    private $denied = [];
 
     private $url;
     private $regex;
@@ -31,7 +32,7 @@ class Route {
      */
     private $request;
 
-    public function __construct( string $url, $callback, Request $request, Response $response ) {
+    function __construct( string $url, $callback, Request $request, Response $response ) {
 
         $this->response = $response;
         $this->request = $request;
@@ -50,8 +51,12 @@ class Route {
         return $this->params;
     }
 
-    public function getSecured() {
-        return $this->secured;
+    public function getAllowed() {
+        return $this->allowed;
+    }
+
+    public function getDenied() {
+        return $this->denied;
     }
 
     public function equals( Route $route ) {
@@ -96,14 +101,21 @@ class Route {
     }
 
     public function allow( $object ) {
-        $this->secured[] = $object;
+
+        foreach ( $this->denied as $key => $value )
+            if ( $object === $value )
+                array_splice( $this->denied, $key, 1 );
+
+        $this->allowed[] = $object;
     }
 
     public function deny( $object ) {
 
-        foreach ( $this->methods as $key => $value )
+        foreach ( $this->allowed as $key => $value )
             if ( $object === $value )
-                array_splice( $this->secured, $key, 1 );
+                array_splice( $this->allowed, $key, 1 );
+
+        $this->denied[] = $object;
     }
 
     public function toString() {
