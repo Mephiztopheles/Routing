@@ -21,7 +21,7 @@ class RouteRegister {
      * @return Route
      * @throws MethodNotAllowedException
      */
-    public function find( string $url, string $method ) {
+    public function find ( string $url, string $method ) {
 
         foreach ( $this->list as $entry )
             if ( $entry->matches( $url, $method ) )
@@ -35,7 +35,7 @@ class RouteRegister {
      *
      * @throws Exception
      */
-    public function add( Route $route ) {
+    public function add ( Route $route ) {
 
         foreach ( $this->list as $entry )
             if ( $entry->equals( $route ) )

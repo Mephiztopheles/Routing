@@ -14,7 +14,7 @@ class APIException extends Exception {
 
     private $statusCode;
 
-    public function __construct( string $message = "", int $code = 500, Throwable $previous = null ) {
+    public function __construct ( string $message = "", int $code = 500, Throwable $previous = null ) {
 
         parent::__construct( $message, 0, $previous );
 
@@ -24,7 +24,7 @@ class APIException extends Exception {
     /**
      * @return int
      */
-    public function getStatusCode(): int {
+    public function getStatusCode (): int {
         return $this->statusCode;
     }
 }

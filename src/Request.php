@@ -18,14 +18,14 @@ class Request {
     public $body;
     public $query;
 
-    public function __construct() {
+    public function __construct () {
 
         $this->serverProtocol = $_SERVER[ "SERVER_PROTOCOL" ];
-        $this->documentRoot = $_SERVER[ "DOCUMENT_ROOT" ];
-        $this->requestUri = $_SERVER[ "REQUEST_URI" ];
-        $this->requestMethod = $_SERVER[ "REQUEST_METHOD" ];
+        $this->documentRoot   = $_SERVER[ "DOCUMENT_ROOT" ];
+        $this->requestUri     = $_SERVER[ "REQUEST_URI" ];
+        $this->requestMethod  = $_SERVER[ "REQUEST_METHOD" ];
 
-        $this->body = $this->getBody();
+        $this->body  = $this->getBody();
         $this->query = $this->getQuery();
     }
 
@@ -36,7 +36,7 @@ class Request {
      *
      * @return mixed|null
      */
-    public function getBody( $assoc = false ) {
+    public function getBody ( $assoc = false ) {
 
         if ( $this->requestMethod === "GET" )
             return null;
@@ -51,7 +51,7 @@ class Request {
      *
      * @return mixed
      */
-    public function getQuery( $assoc = false ) {
+    public function getQuery ( $assoc = false ) {
 
         $output = json_decode( json_encode( $_GET ), $assoc );
 

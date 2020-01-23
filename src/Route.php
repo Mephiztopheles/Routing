@@ -10,7 +10,7 @@ class Route {
 
     private $methods = [];
     private $allowed = [];
-    private $denied = [];
+    private $denied  = [];
 
     private $url;
     private $regex;
@@ -32,34 +32,34 @@ class Route {
      */
     private $request;
 
-    function __construct( string $url, $callback, Request $request, Response $response ) {
+    function __construct ( string $url, $callback, Request $request, Response $response ) {
 
         $this->response = $response;
-        $this->request = $request;
+        $this->request  = $request;
 
-        $this->url = $url;
+        $this->url      = $url;
         $this->callback = $callback;
 
         $this->format();
     }
 
-    public function getCallback() {
+    public function getCallback () {
         return $this->callback;
     }
 
-    public function getParams() {
+    public function getParams () {
         return $this->params;
     }
 
-    public function getAllowed() {
+    public function getAllowed () {
         return $this->allowed;
     }
 
-    public function getDenied() {
+    public function getDenied () {
         return $this->denied;
     }
 
-    public function equals( Route $route ) {
+    public function equals ( Route $route ) {
         return $this->url === $route->url;
     }
 
@@ -70,7 +70,7 @@ class Route {
      * @return bool
      * @throws MethodNotAllowedException
      */
-    public function matches( string $url, string $method ) {
+    public function matches ( string $url, string $method ) {
 
         if ( preg_match( $this->regex, $url, $matches ) ) {
 
@@ -89,18 +89,18 @@ class Route {
         return false;
     }
 
-    public function addMethod( string $method ) {
+    public function addMethod ( string $method ) {
         $this->methods[] = $method;
     }
 
-    public function removeMethod( string $method ) {
+    public function removeMethod ( string $method ) {
 
         foreach ( $this->methods as $key => $value )
             if ( $method === $value )
                 array_splice( $this->methods, $key, 1 );
     }
 
-    public function allow( $object ) {
+    public function allow ( $object ) {
 
         foreach ( $this->denied as $key => $value )
             if ( $object === $value )
@@ -109,7 +109,7 @@ class Route {
         $this->allowed[] = $object;
     }
 
-    public function deny( $object ) {
+    public function deny ( $object ) {
 
         foreach ( $this->allowed as $key => $value )
             if ( $object === $value )
@@ -118,11 +118,11 @@ class Route {
         $this->denied[] = $object;
     }
 
-    public function toString() {
+    public function toString () {
         return $this->url;
     }
 
-    private function format() {
+    private function format () {
 
         // Make sure the route ends in a / since all of the URLs will
         $this->regex = rtrim( $this->url, '/' ) . '/';

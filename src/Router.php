@@ -12,7 +12,7 @@ use Mephiztopheles\Routing\exception\MethodNotAllowedException;
  *
  * @return string
  */
-function cleanUri( $url ) {
+function cleanUri ( $url ) {
 
     $phpSelf = dirname( $_SERVER[ 'PHP_SELF' ] );
 
@@ -67,12 +67,12 @@ class Router {
      * @param string                 $root
      * @param AbstractAccessProvider $accessProvider
      */
-    public function __construct( string $root, AbstractAccessProvider $accessProvider = null ) {
+    public function __construct ( string $root, AbstractAccessProvider $accessProvider = null ) {
 
-        $this->root = $root;
-        $this->response = new Response();
-        $this->request = new Request();
-        $this->register = new RouteRegister();
+        $this->root           = $root;
+        $this->response       = new Response();
+        $this->request        = new Request();
+        $this->register       = new RouteRegister();
         $this->accessProvider = $accessProvider;
     }
 
@@ -84,7 +84,7 @@ class Router {
      * @return RouteBuilder
      * @throws Exception
      */
-    public function get( $url, $callback ) {
+    public function get ( $url, $callback ) {
         return $this->add( $url, $callback )->allowMethod( "get" );
     }
 
@@ -96,7 +96,7 @@ class Router {
      * @return RouteBuilder
      * @throws Exception
      */
-    public function head( $url, $callback ) {
+    public function head ( $url, $callback ) {
         return $this->add( $url, $callback )->allowMethod( "head" );
     }
 
@@ -108,7 +108,7 @@ class Router {
      * @return RouteBuilder
      * @throws Exception
      */
-    public function post( $url, $callback ) {
+    public function post ( $url, $callback ) {
         return $this->add( $url, $callback )->allowMethod( "post" );
     }
 
@@ -120,7 +120,7 @@ class Router {
      * @return RouteBuilder
      * @throws Exception
      */
-    public function put( $url, $callback ) {
+    public function put ( $url, $callback ) {
         return $this->add( $url, $callback )->allowMethod( "put" );
     }
 
@@ -132,7 +132,7 @@ class Router {
      * @return RouteBuilder
      * @throws Exception
      */
-    public function delete( $url, $callback ) {
+    public function delete ( $url, $callback ) {
         return $this->add( $url, $callback )->allowMethod( "delete" );
     }
 
@@ -144,7 +144,7 @@ class Router {
      * @return RouteBuilder
      * @throws Exception
      */
-    public function connect( $url, $callback ) {
+    public function connect ( $url, $callback ) {
         return $this->add( $url, $callback )->allowMethod( "connect" );
     }
 
@@ -156,7 +156,7 @@ class Router {
      * @return RouteBuilder
      * @throws Exception
      */
-    public function options( $url, $callback ) {
+    public function options ( $url, $callback ) {
         return $this->add( $url, $callback )->allowMethod( "options" );
     }
 
@@ -168,7 +168,7 @@ class Router {
      * @return RouteBuilder
      * @throws Exception
      */
-    public function trace( $url, $callback ) {
+    public function trace ( $url, $callback ) {
         return $this->add( $url, $callback )->allowMethod( "trace" );
     }
 
@@ -180,7 +180,7 @@ class Router {
      * @return RouteBuilder
      * @throws Exception
      */
-    public function patch( string $url, $callback ) {
+    public function patch ( string $url, $callback ) {
         return $this->add( $url, $callback )->allowMethod( "patch" );
     }
 
@@ -192,20 +192,20 @@ class Router {
      * @return RouteBuilder
      * @throws Exception
      */
-    public function add( string $url, $callback ) {
+    public function add ( string $url, $callback ) {
 
-        $route = new Route( $url, $callback, $this->request, $this->response );
+        $route = new Route( $this->root . $url, $callback, $this->request, $this->response );
 
         $this->register->add( $route );
 
         return new RouteBuilder( $route );
     }
 
-    public function setControllerNamespace( $namespace ) {
+    public function setControllerNamespace ( $namespace ) {
         $this->namespace = $namespace;
     }
 
-    private function defaultRequestHandler() {
+    private function defaultRequestHandler () {
         $this->response->notFound();
     }
 
@@ -214,7 +214,7 @@ class Router {
      *
      * @return bool
      */
-    private function checkAccess( Route $route ) {
+    private function checkAccess ( Route $route ) {
 
         if ( $this->accessProvider->check( $route ) )
             return true;
@@ -223,9 +223,9 @@ class Router {
         return false;
     }
 
-    private function resolve() {
+    private function resolve () {
 
-        $uri = cleanUri( $this->request->requestUri );
+        $uri           = cleanUri( $this->request->requestUri );
         $requestMethod = strtoupper( $this->request->requestMethod );
 
         $this->response->header( "-x-uri:$uri" );
@@ -255,8 +255,8 @@ class Router {
 
             if ( gettype( $route->getCallback() ) == "string" ) {
 
-                $parts = explode( "@", $route->getCallback() );
-                $clazz = $this->namespace . "\\" . $parts[ 0 ];
+                $parts  = explode( "@", $route->getCallback() );
+                $clazz  = $this->namespace . "\\" . $parts[ 0 ];
                 $method = $parts[ 1 ];
 
                 $result = call_user_func_array( array( new $clazz(), $method ), $params );
@@ -282,7 +282,7 @@ class Router {
         }
     }
 
-    function __destruct() {
+    function __destruct () {
         $this->resolve();
     }
 }

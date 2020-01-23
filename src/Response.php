@@ -12,31 +12,31 @@ class Response {
 
     private $content;
 
-    public function ok() {
+    public function ok () {
         return $this->status( 200 );
     }
 
-    public function created() {
+    public function created () {
         return $this->status( 201 );
     }
 
-    public function methodNotAllowed() {
+    public function methodNotAllowed () {
         return $this->status( 405 );
     }
 
-    public function unauthorized() {
+    public function unauthorized () {
         return $this->status( 401 );
     }
 
-    public function notAllowed() {
+    public function notAllowed () {
         return $this->status( 403 );
     }
 
-    public function notFound() {
+    public function notFound () {
         return $this->status( 404 );
     }
 
-    public function download( $content, $filename = "" ) {
+    public function download ( $content, $filename = "" ) {
 
         header( "Content-Type: application/x-download" );
         header( "Content-Disposition: attachment; $filename" );
@@ -44,9 +44,11 @@ class Response {
         header( "Pragma: public" );
 
         $this->content = $content;
+
+        return $this;
     }
 
-    public function json( $content = null ) {
+    public function json ( $content = null ) {
 
         $this->header( "Content-Type: application/json; charset=UTF-8" );
 
@@ -56,7 +58,7 @@ class Response {
         return $this;
     }
 
-    public function text( $content = null ) {
+    public function text ( $content = null ) {
 
         $this->header( "Content-Type: text/html; charset=UTF-8" );
 
@@ -66,7 +68,7 @@ class Response {
         return $this;
     }
 
-    public function status( $status, $message = null ) {
+    public function status ( $status, $message = null ) {
 
         if ( !isset( $message ) )
             $message = $this->getMessageToStatus( $status );
@@ -74,18 +76,18 @@ class Response {
         return $this->header( $_SERVER[ "SERVER_PROTOCOL" ] . " $status $message" );
     }
 
-    public function header( $header ) {
+    public function header ( $header ) {
 
         header( $header );
 
         return $this;
     }
 
-    public function send() {
+    public function send () {
         echo $this->content;
     }
 
-    private function getMessageToStatus( $status ) {
+    private function getMessageToStatus ( $status ) {
 
         switch ( $status ) {
 

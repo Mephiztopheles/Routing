@@ -11,5 +11,5 @@ abstract class AbstractAccessProvider {
      *
      * @return bool
      */
-    public abstract function check( Route $route );
+    public abstract function check ( Route $route );
 }

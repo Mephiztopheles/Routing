@@ -8,11 +8,11 @@ class RouteBuilder {
 
     private $route;
 
-    function __construct( Route $route ) {
+    function __construct ( Route $route ) {
         $this->route = $route;
     }
 
-    public function allowMethod( ...$methods ) {
+    public function allowMethod ( ...$methods ) {
 
         foreach ( $methods as $method )
             $this->route->addMethod( strtoupper( $method ) );
@@ -20,7 +20,7 @@ class RouteBuilder {
         return $this;
     }
 
-    public function denyMethod( string ...$methods ) {
+    public function denyMethod ( string ...$methods ) {
 
         foreach ( $methods as $method )
             $this->route->removeMethod( $method );
@@ -28,7 +28,7 @@ class RouteBuilder {
         return $this;
     }
 
-    public function allow( ...$objects ) {
+    public function allow ( ...$objects ) {
 
         foreach ( $objects as $object )
             $this->route->allow( $object );
@@ -36,7 +36,7 @@ class RouteBuilder {
         return $this;
     }
 
-    public function deny( ...$objects ) {
+    public function deny ( ...$objects ) {
 
         foreach ( $objects as $object )
             $this->route->deny( $object );
