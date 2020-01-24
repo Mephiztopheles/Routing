@@ -278,7 +278,9 @@ class Router {
             if ( $e instanceof APIException )
                 $this->response->header( "x-message: {$e->getMessage()}" )->status( $e->getStatusCode() );
             else
-                $this->response->header( "{$this->request->serverProtocol} 500 {$e->getMessage()}" );
+                $this->response->status( 500 );
+
+            error_log( $e->getMessage() );
         }
     }
 
