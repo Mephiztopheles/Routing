@@ -39,7 +39,7 @@ class Response {
     public function download ( $content, $filename = "" ) {
 
         header( "Content-Type: application/x-download" );
-        header( "Content-Disposition: attachment; $filename" );
+        header( "Content-Disposition: attachment; filename=\"$filename\"" );
         header( "Cache-Control: private, max-age=0, must-revalidate" );
         header( "Pragma: public" );
 
@@ -81,6 +81,10 @@ class Response {
         header( $header );
 
         return $this;
+    }
+
+    public function redirect ( $location ) {
+        return $this->header( "Location: $location" );
     }
 
     public function send () {
