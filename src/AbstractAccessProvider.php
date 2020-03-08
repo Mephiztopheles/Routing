@@ -6,30 +6,29 @@ namespace Mephiztopheles\Routing;
 
 abstract class AbstractAccessProvider {
 
-
     function check ( Route $route, Request $request, Response $response ) {
 
-        $denied  = $route->getDenied();
-        $allowed = $route->getAllowed();
+        $denyConfigs  = $route->getDenied();
+        $allowConfigs = $route->getAllowed();
 
-        if ( !count( $allowed ) && !count( $denied ) )
+        if ( !count( $allowConfigs ) && !count( $denyConfigs ) )
             return true;
 
-        foreach ( $denied as $secure ) {
+        foreach ( $denyConfigs as $secure ) {
 
             if ( is_callable( $secure ) )
                 $allowed = call_user_func_array( $secure, [ $route, $request, $response ] );
             else
-                $allowed = $this->isAllowed( $secure, $route, $request, $response );
+                $allowed = $this->isDenied( $secure, $route, $request, $response );
 
-            if ( !$allowed )
+            if ( $allowed )
                 return false;
         }
 
-        if ( !count( $allowed ) )
+        if ( !count( $allowConfigs ) )
             return true;
 
-        foreach ( $allowed as $secure ) {
+        foreach ( $allowConfigs as $secure ) {
 
             if ( is_callable( $secure ) )
                 $allowed = call_user_func_array( $secure, [ $route, $request, $response ] );
@@ -49,7 +48,17 @@ abstract class AbstractAccessProvider {
      * @param Request  $request
      * @param Response $response
      *
-     * @return bool
+     * @return bool if the current object means to allow the access to the route
      */
     public abstract function isAllowed ( $object, Route $route, Request $request, Response $response );
+
+    /**
+     * @param          $object
+     * @param Route    $route
+     * @param Request  $request
+     * @param Response $response
+     *
+     * @return bool if the current object means to deny the access to the route
+     */
+    public abstract function isDenied ( $object, Route $route, Request $request, Response $response );
 }
