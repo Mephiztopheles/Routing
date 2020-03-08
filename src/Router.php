@@ -78,7 +78,6 @@ class Router {
 
     /**
      * @param string         $url
-     *
      * @param Closure|string $callback
      *
      * @return RouteBuilder
@@ -90,7 +89,6 @@ class Router {
 
     /**
      * @param string         $url
-     *
      * @param Closure|string $callback
      *
      * @return RouteBuilder
@@ -102,7 +100,6 @@ class Router {
 
     /**
      * @param string         $url
-     *
      * @param Closure|string $callback
      *
      * @return RouteBuilder
@@ -114,7 +111,6 @@ class Router {
 
     /**
      * @param string         $url
-     *
      * @param Closure|string $callback
      *
      * @return RouteBuilder
@@ -126,7 +122,6 @@ class Router {
 
     /**
      * @param string         $url
-     *
      * @param Closure|string $callback
      *
      * @return RouteBuilder
@@ -138,7 +133,6 @@ class Router {
 
     /**
      * @param string         $url
-     *
      * @param Closure|string $callback
      *
      * @return RouteBuilder
@@ -150,7 +144,6 @@ class Router {
 
     /**
      * @param string         $url
-     *
      * @param Closure|string $callback
      *
      * @return RouteBuilder
@@ -162,7 +155,6 @@ class Router {
 
     /**
      * @param string         $url
-     *
      * @param Closure|string $callback
      *
      * @return RouteBuilder
@@ -174,7 +166,6 @@ class Router {
 
     /**
      * @param string         $url
-     *
      * @param Closure|string $callback
      *
      * @return RouteBuilder
@@ -186,7 +177,6 @@ class Router {
 
     /**
      * @param string         $url
-     *
      * @param Closure|string $callback
      *
      * @return RouteBuilder
@@ -210,16 +200,17 @@ class Router {
     }
 
     /**
-     * @param $route
+     * @param Route $route
      *
      * @return bool
      */
     private function checkAccess ( Route $route ) {
 
-        if ( $this->accessProvider->check( $route ) )
+        if ( $this->accessProvider->check( $route, $this->request, $this->response ) )
             return true;
 
-        $this->response->notAllowed();
+        if ( $this->response->getStatus() == null )
+            $this->response->notAllowed();
         return false;
     }
 

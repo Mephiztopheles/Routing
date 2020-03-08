@@ -12,6 +12,8 @@ class Response {
 
     private $content;
 
+    private $status = null;
+
     public function ok () {
         return $this->status( 200 );
     }
@@ -73,7 +75,13 @@ class Response {
         if ( !isset( $message ) )
             $message = $this->getMessageToStatus( $status );
 
+        $this->status = $status;
+
         return $this->header( $_SERVER[ "SERVER_PROTOCOL" ] . " $status $message" );
+    }
+
+    public function getStatus () {
+        return $this->status;
     }
 
     public function header ( $header ) {
