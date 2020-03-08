@@ -4,7 +4,8 @@
   "type": "library",
   "license": "MIT",
   "require": {
-    "ext-json": "*"
+    "ext-json": "*",
+    "ext-apache": "*"
   },
   "autoload": {
     "psr-4": {

@@ -17,6 +17,7 @@ class Request {
     public $documentRoot;
     public $body;
     public $query;
+    public $headers;
 
     public function __construct () {
 
@@ -25,8 +26,9 @@ class Request {
         $this->requestUri     = $_SERVER[ "REQUEST_URI" ];
         $this->requestMethod  = $_SERVER[ "REQUEST_METHOD" ];
 
-        $this->body  = $this->getBody();
-        $this->query = $this->getQuery();
+        $this->body    = $this->getBody();
+        $this->query   = $this->getQuery();
+        $this->headers = getallheaders();
     }
 
     /**
