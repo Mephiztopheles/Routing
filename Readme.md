@@ -1,0 +1,1 @@
+Check Wiki for usage
